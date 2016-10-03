@@ -116,7 +116,15 @@ class ViewController: UIViewController,UIGestureRecognizerDelegate {
     }
     
     @IBAction func unwind(segue: UIStoryboardSegue){
-        
+        if(topLabel.text == "Slideshow"){
+            timer = NSTimer.scheduledTimerWithTimeInterval(
+                2.0,
+                target: self,
+                selector: #selector(self.nextBtn(_:)),
+                userInfo: nil,
+                repeats: true
+            )
+        }
     }
     //Not allow the rotation
     override func shouldAutorotate() -> Bool {
@@ -124,12 +132,16 @@ class ViewController: UIViewController,UIGestureRecognizerDelegate {
     }
     
     //Segue 
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if(segue.identifier == "result"){
+            if(timer != nil){
+                timer!.invalidate()
+            }
             let detailShow: ResultViewController = (segue.destinationViewController as? ResultViewController)!
             detailShow.img = slideImg.image
-            timer!.invalidate()
-    }
+           
+        }
     }
 }
 
